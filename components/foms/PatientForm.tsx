@@ -56,8 +56,8 @@ const PatientForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
-        <section className="mb-12 space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 flex-1">
+        <section className="mb-2 space-y-1">
           <h1 className="header">Hi there 👋</h1>
           <p className="text-dark-700">Schedule your first appointment.</p>
         </section>
@@ -86,7 +86,7 @@ const PatientForm = () => {
           label="Phone"
           placeholder="+233 000 000 000"
         />
-        <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
+        <SubmitButton isLoading={isLoading} >Get Started</SubmitButton>
       </form>
     </Form>
   );
