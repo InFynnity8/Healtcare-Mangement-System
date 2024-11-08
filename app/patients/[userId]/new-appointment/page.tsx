@@ -1,12 +1,16 @@
-import PatientForm from "@/components/foms/PatientForm";
+import AppointmentForm from "@/components/foms/AppointmentForm";
+import { getPatient } from "@/lib/actions/patient.actions";
 import Image from "next/image";
-import Link from "next/link";
 
-export const NewAppointment =() => {
+export default async function NewAppointment({
+  params: { userId },
+}: SearchParamProps) {
+  const patient = await getPatient(userId);
+
   return (
     <div className="flex h-screen max-h-screen">
-      <section className="remove-scrollbar my-auto container">
-        <div className="sub-container max-w-[496px]">
+      <section className="remove-scrollbar container">
+        <div className="sub-container max-w-[860px] flex-1 justify-between">
           <Image
             src="/assets/icons/logo-full.svg"
             height={1000}
@@ -15,24 +19,17 @@ export const NewAppointment =() => {
             className="mb-6 h-10 w-fit"
           />
 
-          <PatientForm />
+          <AppointmentForm type="create" userId={userId} patientId={patient.$id} />
 
-          <div className="text-14-regular mt-10 flex justify-between">
-            <p className="justify-items-end text-dark-600 xl:text-left">
-              © 2024 CarePulse
-            </p>
-            <Link href="/?amin=true" className="text-green-500">
-              Admin
-            </Link>
-          </div>
+          <p className="copyright py-12">© 2024 CarePulse</p>
         </div>
       </section>
       <Image
-        src="/assets/images/onboarding-img.png"
+        src="/assets/images/appointment-img.png"
         width={1000}
         height={1000}
-        alt="patient"
-        className="side-img max-w-[50%]"
+        alt="appointment"
+        className="side-img max-w-[400px] bg-bottom"
       />
     </div>
   );

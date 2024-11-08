@@ -1,7 +1,16 @@
 "use server";
 
 import { ID, Query } from "node-appwrite";
-import { BUCKET_ID, DATABASE_ID, databases, ENDPOINT, PATIENT_COLLECCTION_ID, PROJECT_ID, storage, users } from "../appwrite.config";
+import {
+  BUCKET_ID,
+  DATABASE_ID,
+  databases,
+  ENDPOINT,
+  PATIENT_COLLECCTION_ID,
+  PROJECT_ID,
+  storage,
+  users,
+} from "../appwrite.config";
 import { parseStringify } from "../utils";
 import { InputFile } from "node-appwrite/file";
 
@@ -43,11 +52,11 @@ export const registerPatient = async ({
 
     if (identificationDocument) {
       const inputFile = InputFile.fromBuffer(
-        identificationDocument?.get('blobFile') as Blob,
-      identificationDocument?.get('fileName') as string
+        identificationDocument?.get("blobFile") as Blob,
+        identificationDocument?.get("fileName") as string
       );
 
-      file =  await storage.createFile(BUCKET_ID!, ID.unique(), inputFile)
+      file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
     }
 
     const newPatient = await databases.createDocument(
@@ -57,11 +66,23 @@ export const registerPatient = async ({
       {
         identificationDocumentId: file?.$id || null,
         identificationDocumentUrl: `${ENDPOINT}/storage/bucket/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}`,
-       ...patient
+        ...patient,
       }
-    )
-    return parseStringify(newPatient)
-    
+    );
+    return parseStringify(newPatient);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPatient = async (userId: string) => {
+  try {
+    const patients = await databases.listDocuments(
+      DATABASE_ID!,
+      PATIENT_COLLECCTION_ID!,
+      [Query.equal("userId", [userId])]
+    );
+    return parseStringify(patients.documents[0]);
   } catch (error) {
     console.log(error);
   }
