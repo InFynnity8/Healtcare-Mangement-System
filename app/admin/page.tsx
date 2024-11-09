@@ -23,7 +23,7 @@ const Admin = async () => {
         </Link>
         <p className="text-16-semibold">Dashboard</p>
       </header>
-      <main className="admin-name">
+      <main className="admin-main">
         <section className="w-full space-y-4">
           <h1 className="header">Welcome 👋</h1>
           <p className="text-dark-700">
